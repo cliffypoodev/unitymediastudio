@@ -1,0 +1,14 @@
+{
+  "name": "unitymediastudio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd backend && bun run dev",
+    "dev:mobile": "cd mobile && expo start",
+    "dev:web": "cd mobile && expo start --web",
+    "install:backend": "cd backend && bun install",
+    "install:mobile": "cd mobile && npm install",
+    "install:all": "npm run install:backend && npm run install:mobile",
+    "start": "cd backend && bun run start"
+  }
+}

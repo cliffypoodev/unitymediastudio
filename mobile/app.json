@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Unity Studios",
+    "slug": "unity-studios",
+    "scheme": "vibecode",
+    "version": "1.2.6",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSExceptionDomains": {
+            "gamma.gammacloud.net": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true
+            },
+            "app.ytmp3.as": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true
+            },
+            "ytmp3.as": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true
+            }
+          }
+        },
+        "NSCameraUsageDescription": "Unity Studios uses the camera to capture photos inside the app before you publish them.",
+        "NSPhotoLibraryUsageDescription": "Unity Studios accesses your photo library to generate thumbnails for your videos.",
+        "NSPhotoLibraryAddUsageDescription": "Unity Studios saves media you export from the app into your photo library.",
+        "NSMicrophoneUsageDescription": "Unity Studios uses the microphone to record audio tracks that the app attaches to your creations."
+      },
+      "bundleIdentifier": "com.vibecode.unitystudiokit-kbzzod",
+      "buildNumber": "14"
+    },
+    "android": {
+      "edgeToEdgeEnabled": true
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "icon": "./icon.png"
+  }
+}

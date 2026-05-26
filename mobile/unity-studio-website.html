@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Studio - Multi-Media Creative Toolkit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #FFB84D;
+            box-shadow: 0 4px 20px rgba(255, 184, 77, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFB84D 0%, #D4A574 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(255, 184, 77, 0.5);
+        }
+
+        .header p {
+            color: #9CA3AF;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: #0d0d0d;
+            border-bottom: 1px solid #2a2a2a;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid #3a3a3a;
+            color: #9CA3AF;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .nav-tab:hover {
+            border-color: #FFB84D;
+            color: #FFB84D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 184, 77, 0.3);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #FFB84D 0%, #D4A574 100%);
+            border-color: #FFB84D;
+            color: #0d0d0d;
+            box-shadow: 0 4px 20px rgba(255, 184, 77, 0.4);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section Grid */
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #3a3a3a;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB84D, #D4A574, #FFB84D);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            border-color: #FFB84D;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 184, 77, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFB84D;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #9CA3AF;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #e5e5e5;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FFB84D;
+            font-weight: bold;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: #1a1a1a;
+            border: 2px solid #3a3a3a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #FFB84D;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            background: #0d0d0d;
+            border: 2px solid #3a3a3a;
+            color: #e5e5e5;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #FFB84D;
+            box-shadow: 0 0 0 3px rgba(255, 184, 77, 0.1);
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Button */
+        .btn {
+            background: linear-gradient(135deg, #FFB84D 0%, #D4A574 100%);
+            color: #0d0d0d;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 184, 77, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+            color: #FFB84D;
+            border: 2px solid #FFB84D;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #FFB84D;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #3a3a3a;
+            color: #FFB84D;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #FFB84D;
+            color: #0d0d0d;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0d0d0d;
+            border-top: 2px solid #FFB84D;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #9CA3AF;
+        }
+
+        .footer a {
+            color: #FFB84D;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #D4A574;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .nav-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 184, 77, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFB84D;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Unity Studio</h1>
+        <p>Multi-Media Creative Toolkit</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="music">Music</button>
+        <button class="nav-tab" data-tab="images">Images</button>
+        <button class="nav-tab" data-tab="video">Video</button>
+        <button class="nav-tab" data-tab="writing">Writing</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Music Tab -->
+        <div class="tab-content active" id="music">
+            <div class="section-grid">
+                <!-- YouTube Downloader -->
+                <div class="card" onclick="openModal('youtubeModal')">
+                    <span class="card-icon">🎧</span>
+                    <h2 class="card-title">Search YT</h2>
+                    <p class="card-description">Download audio from YouTube videos. Search directly or paste URLs for instant MP3 conversion.</p>
+                    <ul class="feature-list">
+                        <li>Direct YouTube search</li>
+                        <li>One-tap download</li>
+                        <li>Auto MP3 conversion</li>
+                        <li>Progress tracking</li>
+                    </ul>
+                </div>
+
+                <!-- Library -->
+                <div class="card" onclick="openModal('libraryModal')">
+                    <span class="card-icon">📚</span>
+                    <h2 class="card-title">Library</h2>
+                    <p class="card-description">View and manage your downloaded audio files with a built-in player.</p>
+                    <ul class="feature-list">
+                        <li>Full playback controls</li>
+                        <li>Skip forward/backward</li>
+                        <li>Track management</li>
+                        <li>Share and export</li>
+                    </ul>
+                </div>
+
+                <!-- Lyrics -->
+                <div class="card" onclick="openModal('lyricsModal')">
+                    <span class="card-icon">📝</span>
+                    <h2 class="card-title">Lyrics</h2>
+                    <p class="card-description">Search for song lyrics or generate custom lyrics with AI.</p>
+                    <ul class="feature-list">
+                        <li>Genius.com integration</li>
+                        <li>AI lyrics generator</li>
+                        <li>Copy and share lyrics</li>
+                        <li>Lyrics history</li>
+                    </ul>
+                </div>
+
+                <!-- Suno -->
+                <div class="card" onclick="window.open('https://suno.com', '_blank')">
+                    <span class="card-icon">🎵</span>
+                    <h2 class="card-title">Suno</h2>
+                    <p class="card-description">Create AI-generated music with Suno. Professional music creation at your fingertips.</p>
+                    <ul class="feature-list">
+                        <li>AI music generation</li>
+                        <li>Multiple genres</li>
+                        <li>High-quality output</li>
+                        <li>Professional tools</li>
+                    </ul>
+                </div>
+
+                <!-- DistroKid -->
+                <div class="card" onclick="window.open('https://distrokid.com', '_blank')">
+                    <span class="card-icon">☁️</span>
+                    <h2 class="card-title">DistroKid</h2>
+                    <p class="card-description">Distribute your music to Spotify, Apple Music, and all major streaming platforms.</p>
+                    <ul class="feature-list">
+                        <li>Global distribution</li>
+                        <li>Keep 100% royalties</li>
+                        <li>Unlimited uploads</li>
+                        <li>Fast processing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Images Tab -->
+        <div class="tab-content" id="images">
+            <div class="section-grid">
+                <!-- Create Image -->
+                <div class="card" onclick="openModal('createImageModal')">
+                    <span class="card-icon">🎨</span>
+                    <h2 class="card-title">Create</h2>
+                    <p class="card-description">Generate stunning AI images with multiple models and customization options.</p>
+                    <ul class="feature-list">
+                        <li>OpenAI GPT-Image</li>
+                        <li>Google Gemini Flash</li>
+                        <li>Kling AI (image-to-image)</li>
+                        <li>Custom aspect ratios</li>
+                    </ul>
+                </div>
+
+                <!-- Image Library -->
+                <div class="card" onclick="openModal('imageLibraryModal')">
+                    <span class="card-icon">🖼️</span>
+                    <h2 class="card-title">Library</h2>
+                    <p class="card-description">Browse, preview, and manage your generated images with gesture controls.</p>
+                    <ul class="feature-list">
+                        <li>Pinch-to-zoom</li>
+                        <li>Swipe navigation</li>
+                        <li>Reuse prompts</li>
+                        <li>Share and download</li>
+                    </ul>
+                </div>
+
+                <!-- Image Upscaler -->
+                <div class="card" onclick="openModal('upscalerModal')">
+                    <span class="card-icon">⬆️</span>
+                    <h2 class="card-title">Upscaler</h2>
+                    <p class="card-description">Upscale images to 3000x3000px perfect for album covers and streaming platforms.</p>
+                    <ul class="feature-list">
+                        <li>3000x3000px output</li>
+                        <li>1:1 aspect ratio</li>
+                        <li>High quality PNG</li>
+                        <li>Perfect for Spotify</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Tab -->
+        <div class="tab-content" id="video">
+            <div class="section-grid">
+                <!-- Create Video -->
+                <div class="card" onclick="openModal('createVideoModal')">
+                    <span class="card-icon">🎬</span>
+                    <h2 class="card-title">Create</h2>
+                    <p class="card-description">Generate AI videos with Sora 2.0, Google Veo 3.1, or Kling AI.</p>
+                    <ul class="feature-list">
+                        <li>Sora 2.0 (4-12 seconds)</li>
+                        <li>Google Veo 3.1 (4-8 seconds)</li>
+                        <li>Kling AI (5-10 seconds)</li>
+                        <li>Image-to-video support</li>
+                    </ul>
+                </div>
+
+                <!-- Video Library -->
+                <div class="card" onclick="openModal('videoLibraryModal')">
+                    <span class="card-icon">📹</span>
+                    <h2 class="card-title">Library</h2>
+                    <p class="card-description">View and manage your generated videos with full-screen playback.</p>
+                    <ul class="feature-list">
+                        <li>Full-screen player</li>
+                        <li>View prompts</li>
+                        <li>Share videos</li>
+                        <li>Export and download</li>
+                    </ul>
+                </div>
+
+                <!-- Movie Maker -->
+                <div class="card" onclick="openModal('movieMakerModal')">
+                    <span class="card-icon">🎞️</span>
+                    <h2 class="card-title">Movie Maker</h2>
+                    <p class="card-description">Professional drag-and-drop video editor with transitions and effects.</p>
+                    <ul class="feature-list">
+                        <li>Drag-and-drop timeline</li>
+                        <li>Smooth transitions</li>
+                        <li>Cloud rendering</li>
+                        <li>Export and share</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Tab -->
+        <div class="tab-content" id="writing">
+            <div class="section-grid">
+                <!-- Book Assistant -->
+                <div class="card" onclick="openModal('bookAssistantModal')">
+                    <span class="card-icon">📖</span>
+                    <h2 class="card-title">Book Assistant</h2>
+                    <p class="card-description">AI writing companion for authors. Expert guidance on literary analysis and creative writing.</p>
+                    <ul class="feature-list">
+                        <li>Creative writing help</li>
+                        <li>Character development</li>
+                        <li>Plot structure advice</li>
+                        <li>Grammar and style tips</li>
+                    </ul>
+                </div>
+
+                <!-- Notes -->
+                <div class="card" onclick="openModal('notesModal')">
+                    <span class="card-icon">📓</span>
+                    <h2 class="card-title">Notes</h2>
+                    <p class="card-description">Enhanced note-taking with tags, search, and favorites.</p>
+                    <ul class="feature-list">
+                        <li>Rich text editing</li>
+                        <li>Tag organization</li>
+                        <li>Search and filter</li>
+                        <li>Cloud sync</li>
+                    </ul>
+                </div>
+
+                <!-- MS Word -->
+                <div class="card" onclick="window.open('https://office.live.com/start/Word.aspx', '_blank')">
+                    <span class="card-icon">📄</span>
+                    <h2 class="card-title">MS Word</h2>
+                    <p class="card-description">Microsoft Word Online for professional document creation.</p>
+                    <ul class="feature-list">
+                        <li>Full Word features</li>
+                        <li>Cloud-saved documents</li>
+                        <li>Real-time collaboration</li>
+                        <li>Microsoft account access</li>
+                    </ul>
+                </div>
+
+                <!-- HyperWrite -->
+                <div class="card" onclick="window.open('https://app.hyperwriteai.com', '_blank')">
+                    <span class="card-icon">✨</span>
+                    <h2 class="card-title">HyperWrite</h2>
+                    <p class="card-description">AI-powered writing assistant for all your content needs.</p>
+                    <ul class="feature-list">
+                        <li>AI writing tools</li>
+                        <li>Content generation</li>
+                        <li>Smart editing</li>
+                        <li>Multiple templates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- YouTube Modal -->
+    <div class="modal" id="youtubeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('youtubeModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">YouTube Audio Downloader</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>YouTube URL or Search Term</label>
+                    <input type="text" id="youtubeInput" placeholder="Paste URL or search for a song...">
+                </div>
+                <button class="btn" onclick="downloadYouTube()">Download MP3</button>
+                <div class="success-message" id="youtubeSuccess">Download started! Check your downloads folder.</div>
+            </div>
+            <p style="color: #9CA3AF; margin-top: 1rem; font-size: 0.9rem;">
+                Note: This feature requires backend integration. In a production environment, this would connect to a YouTube audio extraction service.
+            </p>
+        </div>
+    </div>
+
+    <!-- Lyrics Modal -->
+    <div class="modal" id="lyricsModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('lyricsModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Lyrics Search and Generate</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Song Title or Artist</label>
+                    <input type="text" id="lyricsSearch" placeholder="Search for lyrics...">
+                </div>
+                <button class="btn" onclick="searchLyrics()" style="margin-right: 1rem;">Search Lyrics</button>
+                <button class="btn btn-secondary" onclick="generateLyrics()">Generate AI Lyrics</button>
+                <div class="success-message" id="lyricsSuccess">Lyrics found! Results displayed below.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Image Modal -->
+    <div class="modal" id="createImageModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('createImageModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Generate AI Image</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Image Prompt</label>
+                    <textarea id="imagePrompt" placeholder="Describe the image you want to create..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>AI Model</label>
+                    <select id="imageModel">
+                        <option value="openai">OpenAI GPT-Image</option>
+                        <option value="gemini">Google Gemini Flash</option>
+                        <option value="kling">Kling AI</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Aspect Ratio</label>
+                    <select id="aspectRatio">
+                        <option value="square">Square (1:1)</option>
+                        <option value="landscape">Landscape (16:9)</option>
+                        <option value="portrait">Portrait (9:16)</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateImage()">Generate Image</button>
+                <div class="success-message" id="imageSuccess">Image generation started! This may take 10-30 seconds.</div>
+            </div>
+            <p style="color: #9CA3AF; margin-top: 1rem; font-size: 0.9rem;">
+                Note: Requires API keys for image generation services.
+            </p>
+        </div>
+    </div>
+
+    <!-- Create Video Modal -->
+    <div class="modal" id="createVideoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('createVideoModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Generate AI Video</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Video Prompt</label>
+                    <textarea id="videoPrompt" placeholder="Describe the video you want to create..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>AI Model</label>
+                    <select id="videoModel">
+                        <option value="sora">Sora 2.0 (4-12 seconds)</option>
+                        <option value="veo">Google Veo 3.1 (4-8 seconds)</option>
+                        <option value="kling">Kling AI (5-10 seconds)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Duration</label>
+                    <select id="videoDuration">
+                        <option value="4">4 seconds</option>
+                        <option value="8">8 seconds</option>
+                        <option value="12">12 seconds</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateVideo()">Generate Video</button>
+                <div class="success-message" id="videoSuccess">Video generation started! This may take 1-3 minutes.</div>
+            </div>
+            <p style="color: #9CA3AF; margin-top: 1rem; font-size: 0.9rem;">
+                Note: Requires API keys from OpenAI, Google, or Kling AI.
+            </p>
+        </div>
+    </div>
+
+    <!-- Book Assistant Modal -->
+    <div class="modal" id="bookAssistantModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('bookAssistantModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Book Assistant</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Ask Your Writing Question</label>
+                    <textarea id="bookQuestion" placeholder="Ask about plot development, character arcs, writing techniques, etc..."></textarea>
+                </div>
+                <button class="btn" onclick="askBookAssistant()">Get AI Advice</button>
+                <div class="success-message" id="bookSuccess">AI is thinking... Response will appear shortly.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal" id="notesModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('notesModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Notes</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Note Title</label>
+                    <input type="text" id="noteTitle" placeholder="Enter note title...">
+                </div>
+                <div class="input-group">
+                    <label>Note Content</label>
+                    <textarea id="noteContent" placeholder="Write your note here..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Tags (comma-separated)</label>
+                    <input type="text" id="noteTags" placeholder="work, personal, ideas...">
+                </div>
+                <button class="btn" onclick="saveNote()">Save Note</button>
+                <div class="success-message" id="noteSuccess">Note saved successfully!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Library Modal -->
+    <div class="modal" id="libraryModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('libraryModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Audio Library</h2>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">Your downloaded audio files will appear here. In a production app, this would show your complete library with playback controls.</p>
+            <div class="input-section">
+                <p style="color: #e5e5e5;">No audio files yet. Download some music to see them here!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Library Modal -->
+    <div class="modal" id="imageLibraryModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('imageLibraryModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Image Library</h2>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">Your generated images will appear here with preview, zoom, and sharing options.</p>
+            <div class="input-section">
+                <p style="color: #e5e5e5;">No images yet. Generate some to see them here!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Library Modal -->
+    <div class="modal" id="videoLibraryModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('videoLibraryModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Video Library</h2>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">Your generated videos will appear here with full-screen playback.</p>
+            <div class="input-section">
+                <p style="color: #e5e5e5;">No videos yet. Generate some to see them here!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Maker Modal -->
+    <div class="modal" id="movieMakerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('movieMakerModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Movie Maker</h2>
+            <p style="color: #9CA3AF; margin-bottom: 1rem;">Professional video editor with drag-and-drop timeline, transitions, and cloud rendering.</p>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Project Name</label>
+                    <input type="text" id="projectName" placeholder="My Movie Project...">
+                </div>
+                <button class="btn" onclick="createProject()">Create Project</button>
+                <div class="success-message" id="projectSuccess">Project created! Add videos to start editing.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upscaler Modal -->
+    <div class="modal" id="upscalerModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('upscalerModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Image Upscaler</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Upload Image</label>
+                    <input type="file" id="upscaleImage" accept="image/*" style="color: #e5e5e5;">
+                </div>
+                <button class="btn" onclick="upscaleImage()">Upscale to 3000x3000</button>
+                <div class="success-message" id="upscaleSuccess">Image upscaled successfully!</div>
+            </div>
+            <p style="color: #9CA3AF; margin-top: 1rem; font-size: 0.9rem;">
+                Perfect for album covers and streaming platforms like Spotify and Apple Music.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Unity Studio - Multi-Media Creative Toolkit</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="#" onclick="openModal('aboutModal'); return false;">About</a> |
+            <a href="#" onclick="openModal('contactModal'); return false;">Contact</a> |
+            <a href="#" onclick="openModal('helpModal'); return false;">Help</a>
+        </p>
+    </footer>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('aboutModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">About Unity Studio</h2>
+            <p style="color: #e5e5e5; line-height: 1.6;">
+                Unity Studio is a comprehensive multi-media creative toolkit designed for content creators, musicians, artists, and writers.
+                Our platform integrates cutting-edge AI technology with professional tools to help you bring your creative vision to life.
+            </p>
+            <p style="color: #9CA3AF; margin-top: 1rem;">Version 1.0.0 | December 2024</p>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Contact Us</h2>
+            <div class="input-section">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Message</label>
+                    <textarea placeholder="How can we help?"></textarea>
+                </div>
+                <button class="btn">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('helpModal')">×</button>
+            <h2 style="color: #FFB84D; margin-bottom: 1rem;">Help and Support</h2>
+            <div style="color: #e5e5e5; line-height: 1.8;">
+                <h3 style="color: #FFB84D; margin-top: 1rem;">Getting Started</h3>
+                <p>Navigate between tabs to access different creative tools. Each section contains specialized features for music, images, videos, and writing.</p>
+
+                <h3 style="color: #FFB84D; margin-top: 1rem;">API Keys</h3>
+                <p>Some features require API keys from external services like OpenAI, Google, or Kling AI. Add these in your environment settings.</p>
+
+                <h3 style="color: #FFB84D; margin-top: 1rem;">Need More Help?</h3>
+                <p>Contact our support team through the Contact form or visit our documentation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this.id);
+                }
+            });
+        });
+
+        // Feature Functions (Demo - would need backend integration)
+        function downloadYouTube() {
+            const input = document.getElementById('youtubeInput').value;
+            if (!input) {
+                alert('Please enter a YouTube URL or search term');
+                return;
+            }
+            document.getElementById('youtubeSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('youtubeSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function searchLyrics() {
+            const search = document.getElementById('lyricsSearch').value;
+            if (!search) {
+                alert('Please enter a song title or artist');
+                return;
+            }
+            document.getElementById('lyricsSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('lyricsSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function generateLyrics() {
+            document.getElementById('lyricsSuccess').textContent = 'Generating AI lyrics...';
+            document.getElementById('lyricsSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('lyricsSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function generateImage() {
+            const prompt = document.getElementById('imagePrompt').value;
+            if (!prompt) {
+                alert('Please enter an image prompt');
+                return;
+            }
+            document.getElementById('imageSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('imageSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function generateVideo() {
+            const prompt = document.getElementById('videoPrompt').value;
+            if (!prompt) {
+                alert('Please enter a video prompt');
+                return;
+            }
+            document.getElementById('videoSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('videoSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function askBookAssistant() {
+            const question = document.getElementById('bookQuestion').value;
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+            document.getElementById('bookSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('bookSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+            if (!title || !content) {
+                alert('Please enter both title and content');
+                return;
+            }
+            document.getElementById('noteSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('noteSuccess').classList.remove('active');
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteContent').value = '';
+                document.getElementById('noteTags').value = '';
+            }, 2000);
+        }
+
+        function createProject() {
+            const name = document.getElementById('projectName').value;
+            if (!name) {
+                alert('Please enter a project name');
+                return;
+            }
+            document.getElementById('projectSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('projectSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        function upscaleImage() {
+            const file = document.getElementById('upscaleImage').files[0];
+            if (!file) {
+                alert('Please select an image to upscale');
+                return;
+            }
+            document.getElementById('upscaleSuccess').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('upscaleSuccess').classList.remove('active');
+            }, 3000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    closeModal(modal.id);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
